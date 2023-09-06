@@ -7,7 +7,16 @@ namespace FreshTask
     {
         ApplicationDbContext dbContext = new ApplicationDbContext();
 
-        protected void Page_Load(object sender, EventArgs e) { }
+        protected void Page_Load(object sender, EventArgs e) 
+        {
+            Quantity1.Text = string.Empty;
+            Quantity2.Text = string.Empty;
+            Quantity3.Text = string.Empty;
+
+            Price1.Text = string.Empty;
+            Price2.Text = string.Empty;
+            Price3.Text = string.Empty;
+        }
 
         protected void SaveBillButton_Click(object sender, EventArgs e)
         {
