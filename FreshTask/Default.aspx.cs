@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FreshTask
 {
@@ -7,74 +8,40 @@ namespace FreshTask
     {
         ApplicationDbContext dbContext = new ApplicationDbContext();
 
-        protected void Page_Load(object sender, EventArgs e) 
+        protected void Page_Load(object sender, EventArgs e)
         {
-            Quantity1.Text = string.Empty;
-            Quantity2.Text = string.Empty;
-            Quantity3.Text = string.Empty;
-
-            Price1.Text = string.Empty;
-            Price2.Text = string.Empty;
-            Price3.Text = string.Empty;
-        }
-
-        protected void SaveBillButton_Click(object sender, EventArgs e)
-        {
-            List<Item> items = new List<Item>();
-
-            if (Quantity1.Text != null && !string.IsNullOrWhiteSpace(Quantity1.Text))
+            if (IsPostBack)
             {
-                items.Add(new Item()
+                List<Item> items = new List<Item>();
+
+                List<string> keys = Request.Form.AllKeys.Where(key => key.Contains("Quantity")).ToList();
+
+                foreach (string key in keys)
                 {
-                    Id = Guid.NewGuid(),
-                    Name = Item1.Text,
-                    Quntity = Quantity1.Text,
-                    UnitPrice = Price1.Text
-                });
-            }
+                    string rowIndex = key.Replace("Quantity", "");
+                    Item item = new Item()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = $"Item {rowIndex}",
+                        Quntity = Request.Form[key],
+                        UnitPrice = Request.Form[$"UnitPrice{rowIndex}"]
+                    };
+                    items.Add(item);
+                }
 
-            if (Quantity2.Text != null && !string.IsNullOrWhiteSpace(Quantity2.Text))
-            {
-                items.Add(new Item()
+                if (items.Count > 0)
                 {
-                    Id = Guid.NewGuid(),
-                    Name = Item2.Text,
-                    Quntity = Quantity2.Text,
-                    UnitPrice = Price2.Text
-                });
+                    Invoice invoice = new Invoice()
+                    {
+                        Id = Guid.NewGuid(),
+                        Items = items,
+                        Total = Request.Form[$"net-value"]
+                    };
+
+                    dbContext.Invoices.Add(invoice);
+                    dbContext.SaveChanges();
+                }
             }
-
-            if (Quantity3.Text != null && !string.IsNullOrWhiteSpace(Quantity3.Text))
-            {
-                items.Add(new Item()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = Item3.Text,
-                    Quntity = Quantity3.Text,
-                    UnitPrice = Price3.Text
-                });
-            }
-
-            Invoice invoice = new Invoice()
-            {
-                Id = Guid.NewGuid(),
-                Items = items,
-                Total = CalculateToTal(items)
-            };
-
-            dbContext.Invoices.Add(invoice);
-            dbContext.SaveChanges();
         }
-
-        private string CalculateToTal(List<Item> items)
-        {
-            float Total = 0;
-
-            foreach (Item item in items)
-                Total += (float.Parse(item.Quntity) * float.Parse(item.UnitPrice));
-
-            return Total.ToString("F3");
-        }
-
     }
 }
