@@ -29,7 +29,7 @@ namespace FreshTask
                     items.Add(item);
                 }
 
-                if (items.Count > 0)
+                if (Request.Form[$"net-value"] != string.Empty)
                 {
                     Invoice invoice = new Invoice()
                     {

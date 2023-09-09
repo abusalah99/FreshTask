@@ -87,7 +87,7 @@
                                                         <td>Net</td>
                                                         <td class="text-primary">
                                                             <span id='net-cell'>0.000</span>
-                                                             <input type="hidden" id="net-cell-value" name="net-value" value="0"/>
+                                                             <input type="hidden" id="net-cell-value" name="net-value" value=""/>
                                                         </td>
                                                     </tr>
                                                 </tbody>
