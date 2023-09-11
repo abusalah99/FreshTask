@@ -33,7 +33,6 @@ namespace FreshTask
                 {
                     Invoice invoice = new Invoice()
                     {
-                        Id = Guid.NewGuid(),
                         Items = items,
                         Total = Request.Form[$"net-value"]
                     };

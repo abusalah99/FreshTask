@@ -39,6 +39,8 @@ namespace FreshTask
         {
             ThrowExceptionIfParameterNotSupplied(entity);
 
+            entity.Id = Guid.NewGuid();
+
             await Task.Run(() => dbSet.Add(entity));
             await SaveChangesAsync();
         }
