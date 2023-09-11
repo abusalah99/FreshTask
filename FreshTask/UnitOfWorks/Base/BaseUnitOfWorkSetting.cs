@@ -8,7 +8,7 @@ namespace FreshTask
     {
         private readonly IBaseRepositorySetting<TEntity> _repository;
 
-        protected BaseUnitOfWorkSetting() => _repository = new BaseRepositorySetting<TEntity>();
+        protected BaseUnitOfWorkSetting() => _repository = BaseRepositorySetting<TEntity>.BaseRepositorySettingInstance;
 
         public virtual async Task<IEnumerable<TEntity>> Search(string searchText) => await _repository.Search(searchText);
     }

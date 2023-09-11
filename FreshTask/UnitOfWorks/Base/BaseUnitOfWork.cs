@@ -8,8 +8,8 @@ namespace FreshTask
     public class BaseUnitOfWork<TEntity> : IBaseUnitOfWork<TEntity> where TEntity : BaseEntity
     {
         private readonly IBaseRepository<TEntity> _repository;
-        
-        protected BaseUnitOfWork() => _repository = new BaseRepository<TEntity>();
+
+        protected BaseUnitOfWork() => _repository = BaseRepository<TEntity>.BaseRepositoryInstance;
 
         public virtual async Task<IEnumerable<TEntity>> Read() => await _repository.Get();
         public virtual async Task<TEntity> Read(Guid id) => await _repository.Get(id);

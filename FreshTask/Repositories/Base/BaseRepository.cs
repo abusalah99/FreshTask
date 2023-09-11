@@ -8,13 +8,33 @@ namespace FreshTask
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
         private readonly ApplicationDbContext _context;
+        private static readonly object lockObject = new object();
+        private static BaseRepository<TEntity> instance;
         protected DbSet<TEntity> dbSet;
-        public BaseRepository()
+
+        protected BaseRepository()
         {
             _context = ApplicationDbContext.Instance;
             dbSet = _context.Set<TEntity>();
         }
 
+        public static BaseRepository<TEntity> BaseRepositoryInstance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (lockObject)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new BaseRepository<TEntity>();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
         public virtual async Task Add(TEntity entity)
         {
             ThrowExceptionIfParameterNotSupplied(entity);
