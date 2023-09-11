@@ -6,9 +6,9 @@ namespace FreshTask
 {
     public partial class Default : System.Web.UI.Page
     {
-        ApplicationDbContext dbContext = new ApplicationDbContext();
+        private readonly IInvoiceUnitOfWork _unitOfWork = new InvoiceUnitOfWork();
 
-        protected void Page_Load(object sender, EventArgs e)
+        protected async void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack)
             {
@@ -38,8 +38,7 @@ namespace FreshTask
                         Total = Request.Form[$"net-value"]
                     };
 
-                    dbContext.Invoices.Add(invoice);
-                    dbContext.SaveChanges();
+                    await _unitOfWork.Create(invoice);
                 }
             }
         }

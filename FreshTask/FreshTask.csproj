@@ -4044,6 +4044,18 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Base\BaseRepositorySetting.cs" />
+    <Compile Include="Repositories\Base\Interface\IBaseRepository.cs" />
+    <Compile Include="Repositories\Base\BaseRepository.cs" />
+    <Compile Include="Repositories\Base\Interface\IBaseRepositorySetting.cs" />
+    <Compile Include="Repositories\Repository\Interface\IInvoiceRepository.cs" />
+    <Compile Include="Repositories\Repository\InvoiceRepository.cs" />
+    <Compile Include="UnitOfWorks\Base\BaseUnitOfWork.cs" />
+    <Compile Include="UnitOfWorks\Base\BaseUnitOfWorkSetting.cs" />
+    <Compile Include="UnitOfWorks\Base\Interface\IBaseUnitOfWork.cs" />
+    <Compile Include="UnitOfWorks\Base\Interface\IBaseUnitOfWorkSetting.cs" />
+    <Compile Include="UnitOfWorks\UnitOfWork\Interface\IInvoiceUnitOfWork.cs" />
+    <Compile Include="UnitOfWorks\UnitOfWork\InvoiceUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MasterPage.Master" />
@@ -4537,6 +4549,7 @@
       <DependentUpon>202309061603508_InvoiceMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

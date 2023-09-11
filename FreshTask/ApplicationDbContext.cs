@@ -1,17 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace FreshTask
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext() : base("name=Model") { }
+        private static readonly object _lockObject = new object();
+        private static ApplicationDbContext _instance;
 
-        public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<Item> Items { get; set; }
+        public static ApplicationDbContext Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_lockObject)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new ApplicationDbContext();
+                        }
+                    }
+                }
+                return _instance;
+            }
+        }
+
+        private ApplicationDbContext() : base("name=Model") { }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
