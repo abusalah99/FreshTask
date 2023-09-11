@@ -14,23 +14,23 @@ namespace FreshTask
             {
                 List<Item> items = new List<Item>();
 
-                List<string> keys = Request.Form.AllKeys.Where(key => key.Contains("Quantity")).ToList();
-
-                foreach (string key in keys)
-                {
-                    string rowIndex = key.Replace("Quantity", "");
-                    Item item = new Item()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = $"Item {rowIndex}",
-                        Quntity = Request.Form[key],
-                        UnitPrice = Request.Form[$"UnitPrice{rowIndex}"]
-                    };
-                    items.Add(item);
-                }
-
                 if (Request.Form[$"net-value"] != string.Empty)
                 {
+                    List<string> keys = Request.Form.AllKeys.Where(key => key.Contains("Quantity")).ToList();
+
+                    foreach (string key in keys)
+                    {
+                        string rowIndex = key.Replace("Quantity", "");
+                        Item item = new Item()
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = $"Item {rowIndex}",
+                            Quntity = Request.Form[key],
+                            UnitPrice = Request.Form[$"UnitPrice{rowIndex}"]
+                        };
+                        items.Add(item);
+                    }
+
                     Invoice invoice = new Invoice()
                     {
                         Items = items,
